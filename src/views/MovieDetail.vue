@@ -16,8 +16,6 @@ export default {
     return{
       imgPath:'https://image.tmdb.org/t/p/w500',
       searchUrl : 'https://api.themoviedb.org/3/search/movie?api_key=ee58e73e99cf0fb8cc3ded0d80f4e990&query=',
-      movie:{},
-      movies:[]
     }
   },
 }
