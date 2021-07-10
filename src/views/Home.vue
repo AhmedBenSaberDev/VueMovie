@@ -17,7 +17,7 @@
 
     <div class="movies-list">
       <div class="movie" v-for="movie in movies" :key="movie.id" >
-        <router-link :to="'/movie/' + movie.title" class="movie-link">
+        <router-link :to="'/movie/' + movie.title +'/' + movie.release_date + '/' +  movie.poster_path.slice(1,movie.poster_path.length) + '/' + movie.overview" class="movie-link">
           <div class="product-image">
             <img :src="imgPath + movie.poster_path" alt="Movie Poster" />
             <div class="type">{{  }}</div>
@@ -53,7 +53,6 @@ export default {
         .then(res => res.json())
         .then(data => {
           this.movies = data.results;
-          console.log(this.movies);
           this.search = '';
         })
       }
