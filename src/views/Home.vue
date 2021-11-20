@@ -10,12 +10,15 @@
       </div>
       </router-link>
     </div>
-    <form @submit.prevent="searchMovie" class="search-box">
+    <form @submit.prevent="searchMovie"  class="search-box">
       <input v-model="search" class="text" type="text" placeholder="search your favorite movie">
       <input class="submit-btn"  type="submit" value="search">
     </form>
 
     <div class="movies-list">
+      <div v-show="results">
+        <p>no result found for {{ lastSearch }}</p>
+      </div>
       <div class="movie" v-for="movie in movies" :key="movie.id" >
         <router-link :to="'/movie/' + movie.title +'/' + movie.release_date + '/' +  movie.poster_path.slice(1,movie.poster_path.length) + '/' + movie.overview" class="movie-link">
           <div class="product-image">
@@ -38,7 +41,9 @@
 export default {
   data(){
     return{
+      results:false,
       search:'',
+      lastSearch:'',
       imgPath:'https://image.tmdb.org/t/p/w500',
       movies:[],
       searchUrl : 'https://api.themoviedb.org/3/search/movie?api_key=ee58e73e99cf0fb8cc3ded0d80f4e990&query='
@@ -52,8 +57,16 @@ export default {
         fetch(this.searchUrl + this.search)
         .then(res => res.json())
         .then(data => {
-          this.movies = data.results;
-          this.search = '';
+          if(data.results.length != 0){
+            this.movies = data.results;
+            this.search = '';
+            this.results = false
+          }else{
+            this.lastSearch = this.search;
+            this.search = '';
+            this.results = true;
+          }
+            
         })
       }
     }
